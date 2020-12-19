@@ -1,0 +1,73 @@
+<div id="app">
+    <div class="screen" :class="{ 'game-over': isGameOver }">
+        <div class="teeter">
+            <div class="teeter__space">
+                <game-data
+                        :extraMomentum="extraMomentum"
+                        :activePlayer="activePlayer"
+                        :speed="speed"
+                        :score="userShapes.length"
+                        :isAutoMode="isAutoMode"
+                        @change-mode="isAutoMode = !isAutoMode"
+                ></game-data>
+
+                <game-over
+                        v-if="isGameOver"
+                        :startNewGame="startNewGame">
+                </game-over>
+
+                <div class="teeter__space-left">
+                    <shape
+                            :shape="newShape"
+                            :shapeBottom="newShapeBottom"
+                            :isNewShape="true"
+                            :barAngle="barAngle"
+                            v-if="newShape.type"
+                    ></shape>
+
+                    <div
+                            class="teeter__shapes-container teeter__shapes-container--left"
+                            :style="getStyle"
+                    >
+                        <shape
+                                v-for="(shape, idx) in userShapes"
+                                :key="idx"
+                                :shape="shape"
+                                :shapeBottom="0"
+                                :barAngle="barAngle"
+                        ></shape>
+                    </div>
+                </div>
+
+                <div class="teeter__space-right">
+                    <div
+                            class="teeter__shapes-container teeter__shapes-container--right"
+                            :style="getStyle"
+                    >
+                        <shape
+                                v-for="(shape, idx) in computerShapes"
+                                :key="idx"
+                                :shape="shape"
+                                :shapeBottom="0"
+                                :barAngle="barAngle"
+                                :isComputerShape="true"
+                        ></shape>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                    class="teeter__bar"
+                    :style="getStyle"
+            ></div>
+
+            <div class="teeter__axis"></div>
+        </div>
+
+        <game-controls
+                :controls="controls"
+                @handleControlClick="handleControlClick"
+        ></game-controls>
+        <div class="ground"></div>
+    </div>
+</div>
